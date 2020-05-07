@@ -1,17 +1,20 @@
-name: PR Changelog Add
+name: Changelog Generator
 on:
+  # Trigger the workflow on pull request,
+  # but only for the master branch
   pull_request:
-    types:
-    - opened
-    - edited
-    - synchronized
-    - labeled
-    - unlabeled
+    branches:
+      - master
+    types: [opened, reopened, synchronize]
 
 jobs:
-  check_pr_size:
+  changelog:
+    # Job name is Chanegelog
+    name: Chanegelog Generator
+    # This job runs on Linux
     runs-on: ubuntu-latest
     steps:
-    - uses: guzzler/file-changelog-issue-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - uses: actions/checkout@v2
+        - uses: homeday-de/github-action-changelog-generator@v1.0.0
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
